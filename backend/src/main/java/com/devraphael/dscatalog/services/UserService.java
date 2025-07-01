@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devraphael.dscatalog.dto.RoleDTO;
 import com.devraphael.dscatalog.dto.UserDTO;
+import com.devraphael.dscatalog.dto.UserInsertDTO;
 import com.devraphael.dscatalog.entities.Role;
 import com.devraphael.dscatalog.entities.User;
 import com.devraphael.dscatalog.repositories.RoleRepository;
@@ -24,6 +26,9 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class UserService {
 
+	@Autowired 
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private UserRepository repository;
 
@@ -44,9 +49,10 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO insert(UserDTO dto) {
+	public UserDTO insert(UserInsertDTO dto) {
 		User entity = new User();
 		copyDtoToEntity(dto, entity);
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		entity = repository.save(entity);
 		return new UserDTO(entity);
 	}
