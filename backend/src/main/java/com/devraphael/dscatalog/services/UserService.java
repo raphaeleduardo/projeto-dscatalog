@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devraphael.dscatalog.dto.RoleDTO;
 import com.devraphael.dscatalog.dto.UserDTO;
 import com.devraphael.dscatalog.dto.UserInsertDTO;
+import com.devraphael.dscatalog.dto.UserUpdateDTO;
 import com.devraphael.dscatalog.entities.Role;
 import com.devraphael.dscatalog.entities.User;
 import com.devraphael.dscatalog.repositories.RoleRepository;
@@ -26,15 +27,15 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class UserService {
 
-	@Autowired 
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private UserRepository repository;
 
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAllPaged(Pageable pageable) {
 		Page<User> list = repository.findAll(pageable);
@@ -58,7 +59,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO update(Long id, UserDTO dto) {
+	public UserDTO update(Long id, UserUpdateDTO dto) {
 		try {
 			User entity = repository.getReferenceById(id);
 			copyDtoToEntity(dto, entity);
