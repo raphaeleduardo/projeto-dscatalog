@@ -11,7 +11,6 @@ public class StandardError {
 	private String path;
 
 	public StandardError() {
-		super();
 	}
 
 	public Instant getTimestamp() {
