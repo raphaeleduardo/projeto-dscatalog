@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
@@ -32,7 +33,7 @@ import com.devraphael.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.devraphael.dscatalog.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(ProductController.class)
+@WebMvcTest(value = ProductController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class ProductControllerTests {
 
 	@Autowired
