@@ -40,6 +40,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private AuthService authService;
 
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAllPaged(Pageable pageable) {
@@ -47,6 +50,12 @@ public class UserService implements UserDetailsService {
 		return list.map(x -> new UserDTO(x));
 	}
 
+	@Transactional(readOnly = true)
+	public UserDTO findMe() {
+		User entity = authService.authenticated();
+		return new UserDTO(entity);
+	}
+	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
 		Optional<User> obj = repository.findById(id);
